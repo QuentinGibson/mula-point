@@ -144,11 +144,26 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 ## Next Steps
 
 - [x] Add UI component library (shadcn/ui, Material-UI, etc.)
-- [x] Implement error tracking (Sentry)
-- [ ] Add analytics (PostHog, Vercel Analytics)
-- [ ] Configure rate limiting
-- [ ] Add testing framework
 - [x] Set up CI/CD pipeline
+- [x] Implement error tracking (Sentry)
+- [x] Configure rate limiting
+- [ ] Add analytics (PostHog, Vercel Analytics)
+- [ ] Add testing framework
+- [ ] CMS
+- [ ] Scaffold basic ui with mock data
+
+## New Projects
+
+Make sure to test all these feature before working on a new clone
+
+- [x] Add UI component library (shadcn/ui, Material-UI, etc.)
+- [x] Set up CI/CD pipeline
+- [x] Implement error tracking (Sentry)
+- [x] Configure rate limiting
+- [ ] Add analytics (PostHog, Vercel Analytics)
+- [ ] Add testing framework
+- [ ] CMS
+- [ ] Scaffold basic ui with mock data
 
 ## Resources
 
@@ -157,16 +172,13 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 - [Clerk Documentation](https://clerk.com/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 
+- [Clerk Nextjs Quickstart Documentation](https://clerk.com/docs/quickstarts/nextjs)
+- [Clerk Billing Documentation] (https://clerk.com/docs/nextjs/billing/b2c-saas)
+
+- [Convex Rate Limiter Documentation](https://www.convex.dev/components/rate-limiter)
+- [Convex with tanStack Query Documentation](https://docs.convex.dev/client/tanstack-query)
+
+
 ## License
 
 MIT
-
-## Issues
-
-- [x] Develop a guide for starting a new project with this template
-- [x] tanstack/useQuery
-- [ ] Ratelimiting (w/ Convex)
-- [x] Error management (w/ Sentry)
-- [ ] Analytics (w/ PostHog)
-- [ ] CMS
-- [ ] Scaffold basic ui with mock data
