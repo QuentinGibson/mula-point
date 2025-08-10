@@ -1,36 +1,175 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Mula Point - Modern Full-Stack Starter Template
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Core Stack
+
+- **Next.js 15.4** - React framework with App Router and Turbopack
+- **TypeScript** - Type-safe development experience
+- **Tailwind CSS v4** - Utility-first CSS framework
+- **Convex** - Real-time backend with TypeScript API
+- **Clerk** - Complete authentication solution
+
+### Pre-configured Integrations
+
+- Real-time data synchronization with Convex
+- User authentication and session management with Clerk
+- Responsive UI components with Tailwind CSS
+- Type-safe API calls between frontend and backend
+- Development optimizations with Turbopack
+
+## Quick Start
+
+### Prerequisites
+
+- Node.js 18+ and pnpm/npm/yarn
+- Git for version control
+- Accounts on [Convex](https://convex.dev) and [Clerk](https://clerk.com)
+
+### Setup Instructions
+
+1. **Clone and Install**
+
+   ```bash
+   git clone <your-repo-url>
+   cd mula-point
+   pnpm install
+   ```
+
+2. **Configure Convex Backend**
+
+   ```bash
+   npx convex dev
+   ```
+
+   This will:
+   - Create a new Convex project (or connect to existing)
+   - Generate TypeScript types
+   - Start the Convex development server
+   - Create a `.env.local` file with your Convex URL
+
+3. **Configure Clerk Authentication**
+
+   Create a Clerk application at [clerk.com](https://clerk.com)
+   and add these to `.env.local`:
+
+   ```env
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+   CLERK_SECRET_KEY=sk_test_...
+   CONVEX_SITE_URL=http://localhost:3000
+   ```
+
+   Update your Clerk JWT template with the Convex issuer domain
+   from your Convex dashboard.
+
+4. **Start Development Server**
+
+   ```bash
+   pnpm dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) to see your app.
+
+## Project Structure
+
+```
+mula-point/
+├── src/
+│   ├── app/                 # Next.js app router pages
+│   │   ├── layout.tsx       # Root layout with providers
+│   │   ├── page.tsx         # Home page with auth
+│   │   └── pricing/         # Example pricing page
+│   ├── components/          # React components
+│   │   └── ConvexClientProvider.tsx
+│   └── lib/                 # Utility functions
+│       └── utils.ts
+├── convex/                  # Backend API
+│   ├── _generated/          # Auto-generated types
+│   ├── auth.config.ts       # Clerk auth configuration
+│   └── messages.ts          # Example API endpoint
+├── public/                  # Static assets
+└── middleware.tsx           # Next.js middleware
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Deploy to Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Push your code to GitHub
+2. Import project in [Vercel](https://vercel.com)
+3. Add environment variables:
+   - `NEXT_PUBLIC_CONVEX_URL`
+   - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+   - `CLERK_SECRET_KEY`
+4. Deploy!
 
-## Learn More
+### Deploy Convex Backend
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npx convex deploy --prod
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Common Commands
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm dev          # Start development server
+pnpm build        # Build for production
+pnpm start        # Start production server
+pnpm lint         # Run ESLint
+npx convex dev    # Start Convex dev server
+npx convex deploy # Deploy Convex to production
+```
 
-## Deploy on Vercel
+## Environment Variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create a `.env.local` file with:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```env
+# Convex
+NEXT_PUBLIC_CONVEX_URL=https://...convex.cloud
+
+# Clerk
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
+
+# Optional: Customize Clerk routes
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+```
+
+## Next Steps
+
+- [ ] Add UI component library (shadcn/ui, Material-UI, etc.)
+- [ ] Implement error tracking (Sentry)
+- [ ] Add analytics (PostHog, Vercel Analytics)
+- [ ] Set up image uploads (UploadThing)
+- [ ] Configure rate limiting
+- [ ] Add testing framework
+- [ ] Set up CI/CD pipeline
+
+## Resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Convex Documentation](https://docs.convex.dev)
+- [Clerk Documentation](https://clerk.com/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+
+## License
+
+MIT
+
+## Issues
+
+- [ ] Develop a guide for starting a new project with this template
+- [ ] Make it deploy (w/ Vercel)
+- [ ] Scaffold basic ui with mock data
+- [ ] add image upload (w/ UploadThings)
+- [ ] Ratelimiting (w/ Convex)
+- [ ] Error management (w/ Sentry)
+- [ ] Analytics (w/ PostHog)
+- [ ] CMS
+- [ ] tanstack/useQuery
