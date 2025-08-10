@@ -143,27 +143,28 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 
 ## Next Steps
 
-- [x] Add UI component library (shadcn/ui, Material-UI, etc.)
-- [x] Set up CI/CD pipeline
-- [x] Implement error tracking (Sentry)
-- [x] Configure rate limiting
-- [ ] Add analytics (PostHog, Vercel Analytics)
-- [ ] Add testing framework
-- [ ] CMS
-- [ ] Scaffold basic ui with mock data
-
-## New Projects
-
 Make sure to test all these feature before working on a new clone
 
 - [x] Add UI component library (shadcn/ui, Material-UI, etc.)
 - [x] Set up CI/CD pipeline
 - [x] Implement error tracking (Sentry)
 - [x] Configure rate limiting
-- [ ] Add analytics (PostHog, Vercel Analytics)
-- [ ] Add testing framework
+- [x] Add analytics (PostHog)
 - [ ] CMS
 - [ ] Scaffold basic ui with mock data
+- [ ] Add testing framework
+
+## New Projects
+
+
+- [ ] Add UI component library (shadcn/ui, Material-UI, etc.)
+- [ ] Set up CI/CD pipeline
+- [ ] Implement error tracking (Sentry)
+- [ ] Configure rate limiting
+- [ ] Add analytics (PostHog)
+- [ ] CMS
+- [ ] Scaffold basic ui with mock data
+- [ ] Add testing framework
 
 ## Resources
 

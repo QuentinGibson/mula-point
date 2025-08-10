@@ -3,6 +3,7 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from "@sentry/nextjs";
+import posthog from "posthog-js";
 
 Sentry.init({
   dsn: "https://d9fa4c52d0053a0f653f3c790df7a633@o4507092445626368.ingest.us.sentry.io/4509821370171392",
@@ -27,6 +28,15 @@ Sentry.init({
 
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,
+});
+
+// Initialize PostHog analytics client. Next.js will automatically handle pageview tracking.
+posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+  api_host: "/ingest",
+  ui_host: "https://us.posthog.com",
+  defaults: '2025-05-24',
+  capture_exceptions: true, // enables PostHog's error-capture
+  debug: process.env.NODE_ENV === "development",
 });
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
