@@ -1,8 +1,9 @@
 'use client'
 import { Authenticated, Unauthenticated } from 'convex/react'
 import { SignInButton, UserButton } from '@clerk/nextjs'
-import { useQuery } from 'convex/react'
+import { convexQuery } from '@convex-dev/react-query'
 import { api } from '../../convex/_generated/api'
+import { useQuery } from "@tanstack/react-query"
 
 export default function Home() {
   return (
@@ -19,6 +20,6 @@ export default function Home() {
 }
 
 function Content() {
-  const messages = useQuery(api.messages.getForCurrentUser)
+  const { data: messages, isPending, error } = useQuery(convexQuery(api.messages.getForCurrentUser, {}))
   return <div>Authenticated content: {messages?.length}</div>
 }
