@@ -164,12 +164,11 @@ MIT
 
 ## Issues
 
-- [ ] Develop a guide for starting a new project with this template
-- [ ] Make it deploy (w/ Vercel)
-- [ ] Scaffold basic ui with mock data
-- [ ] add image upload (w/ UploadThings)
+- [x] Develop a guide for starting a new project with this template
+- [ ] tanstack/useQuery
 - [ ] Ratelimiting (w/ Convex)
+- [ ] add image upload (w/ UploadThings)
 - [ ] Error management (w/ Sentry)
 - [ ] Analytics (w/ PostHog)
 - [ ] CMS
-- [ ] tanstack/useQuery
+- [ ] Scaffold basic ui with mock data
