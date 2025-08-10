@@ -143,13 +143,12 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 
 ## Next Steps
 
-- [ ] Add UI component library (shadcn/ui, Material-UI, etc.)
-- [ ] Implement error tracking (Sentry)
+- [x] Add UI component library (shadcn/ui, Material-UI, etc.)
+- [x] Implement error tracking (Sentry)
 - [ ] Add analytics (PostHog, Vercel Analytics)
-- [ ] Set up image uploads (UploadThing)
 - [ ] Configure rate limiting
 - [ ] Add testing framework
-- [ ] Set up CI/CD pipeline
+- [x] Set up CI/CD pipeline
 
 ## Resources
 
@@ -165,10 +164,9 @@ MIT
 ## Issues
 
 - [x] Develop a guide for starting a new project with this template
-- [ ] tanstack/useQuery
+- [x] tanstack/useQuery
 - [ ] Ratelimiting (w/ Convex)
-- [ ] add image upload (w/ UploadThings)
-- [ ] Error management (w/ Sentry)
+- [x] Error management (w/ Sentry)
 - [ ] Analytics (w/ PostHog)
 - [ ] CMS
 - [ ] Scaffold basic ui with mock data
