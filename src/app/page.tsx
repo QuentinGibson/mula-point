@@ -5,6 +5,7 @@ import { convexQuery } from '@convex-dev/react-query'
 import { api } from '../../convex/_generated/api'
 import { useQuery } from "@tanstack/react-query"
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 export default function Home() {
   return (
@@ -22,8 +23,10 @@ export default function Home() {
 
 function Content() {
   const { data: messages, isPending, error } = useQuery(convexQuery(api.messages.getForCurrentUser, {}))
-  return <div>
+  return <div className="flex flex-col items-center justify-center">
     <p>Authenticated content: {messages?.length}</p>
-    <Link href="/sample">Go to Sample Page</Link>
+    <Button asChild>
+      <Link href="/sample">Go to Sample Page</Link>
+    </Button>
   </div>
 }

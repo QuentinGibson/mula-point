@@ -156,7 +156,6 @@ Make sure to test all these feature before working on a new clone
 
 ## New Projects
 
-
 - [ ] Add UI component library (shadcn/ui, Material-UI, etc.)
 - [ ] Set up CI/CD pipeline
 - [ ] Implement error tracking (Sentry)
@@ -174,11 +173,10 @@ Make sure to test all these feature before working on a new clone
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 
 - [Clerk Nextjs Quickstart Documentation](https://clerk.com/docs/quickstarts/nextjs)
-- [Clerk Billing Documentation] (https://clerk.com/docs/nextjs/billing/b2c-saas)
+- [Clerk Billing Documentation](https://clerk.com/docs/nextjs/billing/b2c-saas)
 
 - [Convex Rate Limiter Documentation](https://www.convex.dev/components/rate-limiter)
 - [Convex with tanStack Query Documentation](https://docs.convex.dev/client/tanstack-query)
-
 
 ## License
 
