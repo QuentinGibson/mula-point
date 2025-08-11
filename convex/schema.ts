@@ -21,13 +21,32 @@ export default defineSchema({
     slug: v.string(),
     author: v.id("users"),
   }).index("by_slug", ["slug"]),
-  postTags: defineTable({
-    postId: v.id("posts"),
-    tagId: v.id("tags"),
+  postLikes: defineTable({
+    user: v.id("users"),
+    post: v.id("posts")
   })
-    .index("postId", ["postId"])
-    .index("tagId", ["tagId"])
-    .index("postTagId", ["postId", "tagId"]),
+    .index("by_post", ["post"])
+    .index("by_user", ["user"]),
+  commentLikes: defineTable({
+    user: v.id("users"),
+    comment: v.id("comments")
+  })
+    .index("by_comment", ["comment"])
+    .index("by_user", ["user"]),
+  comments: defineTable({
+    user: v.id("users"),
+    post: v.id("posts"),
+    body: v.string()
+  })
+    .index("by_post", ["post"])
+    .index("by_user", ["user"]),
+  postTags: defineTable({
+    post: v.id("posts"),
+    tag: v.id("tags"),
+  })
+    .index("post", ["post"])
+    .index("tag", ["tag"])
+    .index("post_tag", ["post", "tag"]),
   users: defineTable({
     name: v.string(),
     tokenIdentifier: v.string()
@@ -39,12 +58,12 @@ export default defineSchema({
   })
     .index("by_slug", ["slug"]),
   channelUsers: defineTable({
-    channelId: v.id("channels"),
-    userId: v.id("users"),
+    channel: v.id("channels"),
+    user: v.id("users"),
   })
-    .index("channelId", ["channelId"])
-    .index("userId", ["userId"])
-    .index("channId_userId", ["channelId", "userId"])
+    .index("channel", ["channel"])
+    .index("user", ["user"])
+    .index("channel_user", ["channel", "user"])
 });
 
 
