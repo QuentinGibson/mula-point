@@ -15,7 +15,7 @@ export const tagsByPost = query({
 
     // Return all the tags that the unique post has
     const postTags = await ctx.db.query('postTags')
-      .withIndex("postId", (q) => q.eq("postId", post._id)).collect()
+      .withIndex("post", (q) => q.eq("post", post._id)).collect()
 
     return postTags
   }
@@ -35,7 +35,7 @@ export const postsByTag = query({
     }
 
     // Return all the posts that has the unique tag
-    const posts = await ctx.db.query("postTags").withIndex("tagId", (q) => q.eq("tagId", tag._id)).collect()
+    const posts = await ctx.db.query("postTags").withIndex("tag", (q) => q.eq("tag", tag._id)).collect()
 
     return posts
   }
@@ -66,8 +66,8 @@ export const addTag = mutation({
     //Loop through each slug and add it to a post
     for (const id of args.slugs) {
       await ctx.db.insert("postTags", {
-        postId: post._id,
-        tagId: id
+        post: post._id,
+        tag: id
       })
     }
   }
@@ -82,8 +82,8 @@ export const removeTag = mutation({
   handler: async (ctx, args) => {
     const postTag = await ctx.db
       .query("postTags")
-      .withIndex("postTagId",
-        (q) => q.eq("postId", args.postId).eq("tagId", args.tagId)
+      .withIndex("post_tag",
+        (q) => q.eq("post", args.postId).eq("tag", args.tagId)
       ).unique()
 
     if (!postTag) {
@@ -101,7 +101,7 @@ export const updateTags = mutation({
   handler: async (ctx, args) => {
     const postTags = await ctx.db
       .query("postTags")
-      .withIndex("postId", (q) => q.eq("postId", args.postId))
+      .withIndex("post", (q) => q.eq("post", args.postId))
       .collect()
 
     await Promise.all(postTags.map((postTag) => {
@@ -110,8 +110,8 @@ export const updateTags = mutation({
 
     for (const tag of args.tagIds) {
       await ctx.db.insert("postTags", {
-        postId: args.postId,
-        tagId: tag
+        post: args.postId,
+        tag: tag
       })
     }
   }

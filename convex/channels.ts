@@ -8,17 +8,13 @@ const channelFields = schema.tables.channels.validator.fields
 
 export const list = query({
   args: {},
-  handler: async (ctx, _args) => {
-    ctx.db.query("channels").collect()
-  }
+  // Get all channels
+  handler: async (ctx, _args) => ctx.db.query("channels").collect()
 })
 
 
 export const create = mutation({
-  args: {
-    name: v.string(),
-    slug: v.string()
-  },
+  args: { name: v.string(), slug: v.string() },
   handler: async (ctx, args) => {
     const { name, slug } = args
 
@@ -49,8 +45,8 @@ export const create = mutation({
 
     // Add user to his own channel
     await ctx.db.insert("channelUsers", {
-      userId: user._id,
-      channelId: newChannelId
+      user: user._id,
+      channel: newChannelId
     })
   }
 })
@@ -58,10 +54,10 @@ export const create = mutation({
 export const edit = mutation({
   args: {
     id: v.id("channels"),
-    patch: v.object(partial(channelFields))
+    value: v.object(partial(channelFields))
   },
   handler: async (ctx, args) => {
-    const { id, patch } = args
+    const { id, value } = args
 
     // Check if user is logged in
     const identifier = await ctx.auth.getUserIdentity()
@@ -83,7 +79,7 @@ export const edit = mutation({
     }
 
     // Update channel and log it.
-    await ctx.db.patch(id, patch)
+    await ctx.db.patch(id, value)
     console.log(await ctx.db.get(id))
   }
 })
