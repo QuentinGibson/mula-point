@@ -22,7 +22,9 @@ export default function FormPage() {
   return (
     <>
       <Authenticated>
-        <MessageForm />
+        <div className="flex flex-col gap-12 justify-center items-center">
+          <MessageForm />
+        </div>
       </Authenticated>
       <Unauthenticated>
         <div>
@@ -35,8 +37,6 @@ export default function FormPage() {
 
 function MessageForm() {
   const { mutate } = useMutation({ mutationFn: useConvexMutation(api.messages.send) })
-  const { user } = useUser()
-  const email = user?.primaryEmailAddress?.emailAddress
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,13 +48,12 @@ function MessageForm() {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const { body } = values
-    mutate({ body, author: email || "" })
-    console.log({ body, author: email || "" })
+    mutate({ body })
     console.log("Mutate Ran!")
   }
 
   return (
-    <div className="max-w-3xl flex items-center justify-center mx-auto">
+    <div className="max-w-3xl flex items-center justify-center mx-auto w-[400px]">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
           <FormField
@@ -79,4 +78,5 @@ function MessageForm() {
     </div>
   )
 }
+
 
