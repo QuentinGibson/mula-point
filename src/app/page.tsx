@@ -2,7 +2,7 @@
 import { SignInButton, UserButton } from '@clerk/nextjs'
 import { convexQuery, useConvexMutation } from '@convex-dev/react-query'
 import { api } from '../../convex/_generated/api'
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query"
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -29,17 +29,17 @@ export default function Home() {
 
 function Content() {
   const [message, setMessage] = useState("")
-  const { data: messages, isPending } = useQuery(convexQuery(api.messages.getForCurrentUser, {}))
+  const { data: messages, isPending } = useSuspenseQuery(convexQuery(api.messages.getForCurrentUser, {}))
 
   const { mutate } = useMutation({ mutationFn: useConvexMutation(api.messages.send) })
 
   return <div className="flex flex-col items-center justify-center gap-12">
     <div className="flex flex-col gap-4">
-      <p>Authenticated content: {messages?.length}</p>
+      <p>Authenticated content: {messages.length}</p>
       <ul className='space-y-3'>
         {
           !isPending && (
-            messages?.map((message, index) => (
+            messages.map((message, index) => (
               <li key={index}>
                 <div className='flex flex-col gap-1'>
                   <p>{message.body}</p>
@@ -53,7 +53,7 @@ function Content() {
       <form action="" onSubmit={(e) => e.preventDefault()}>
         <div className="flex flex-col justify-center gap-4">
           <Input type="text" onChange={(e) => setMessage(e.target.value)} defaultValue={message} />
-          <Button type="submit" onClick={() => mutate({ body: message })}>Sumbit</Button>
+          {/* <Button type="submit" onClick={() => mutate({ body: message, channel: "homepage" })}>Sumbit</Button> */}
         </div>
       </form>
     </div>
