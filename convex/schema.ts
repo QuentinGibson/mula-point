@@ -36,13 +36,15 @@ export default defineSchema({
   channels: defineTable({
     name: v.string(),
     slug: v.string()
-  }),
+  })
+    .index("by_slug", ["slug"]),
   channelUsers: defineTable({
     channelId: v.id("channels"),
     userId: v.id("users"),
   })
     .index("channelId", ["channelId"])
     .index("userId", ["userId"])
+    .index("channId_userId", ["channelId", "userId"])
 });
 
 

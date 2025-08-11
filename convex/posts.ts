@@ -1,8 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { paginationOptsValidator } from "convex/server";
-import { partial } from "convex-helpers/validators";
-import schema from "./schema";
 
 export const list = query({
   args: {},
