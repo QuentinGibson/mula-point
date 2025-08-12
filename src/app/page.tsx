@@ -68,6 +68,9 @@ function Content() {
       <Button asChild>
         <Link href="/tables">Go to Tables Page</Link>
       </Button>
+      <Button asChild>
+        <Link href="/chat">Go to Chat Page</Link>
+      </Button>
     </div>
   </div>
 }
