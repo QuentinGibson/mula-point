@@ -27,10 +27,13 @@ export const listChannels = query({
     const channelRelations = await ctx.db.query("channelUsers").withIndex("user", q => q.eq("user", user._id)).collect()
 
     // Get then return channel information 
-    return Promise.all(channelRelations.map((channelUser) => {
+    const channels = await Promise.all(channelRelations.map((channelUser) => {
       const channel = ctx.db.get(channelUser.channel)
       return channel
     }))
+
+    // Filter out any null channels
+    return channels.filter(channel => channel !== null)
   }
 })
 

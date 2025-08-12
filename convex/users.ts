@@ -1,4 +1,4 @@
-import { internalMutation, mutation } from "./_generated/server"
+import { internalMutation, mutation, query } from "./_generated/server"
 import { faker } from "@faker-js/faker"
 
 export const store = mutation({
@@ -39,5 +39,28 @@ export const createFake = internalMutation({
         tokenIdentifier: faker.internet.jwt()
       })
     }
+  }
+})
+
+export const getUsername = query({
+  args: {},
+  handler: async (ctx, _args) => {
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) {
+      throw new Error("Called storeUser without authentication present")
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier),
+      )
+      .unique()
+
+    if (!user) {
+      throw new Error("User is not in system!")
+    }
+
+    return user.name
+
   }
 })
