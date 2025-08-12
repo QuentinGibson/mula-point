@@ -23,7 +23,7 @@ export const getBySlug = query({
       .unique()
 
     if (!channel) {
-      throw new Error("Create a home channel! No home channel found")
+      throw new Error("Channel not found!")
     }
 
     return channel

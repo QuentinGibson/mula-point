@@ -2,16 +2,17 @@
 
 import { convexQuery, useConvexMutation } from "@convex-dev/react-query"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { api } from "../../../convex/_generated/api"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useUser } from "@clerk/nextjs"
 import { Authenticated, Unauthenticated } from "convex/react"
 import Link from "next/link"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import TimeAgo from 'react-timeago'
 
 const formSchema = z.object({
   body: z.string(),
@@ -22,8 +23,14 @@ export default function FormPage() {
   return (
     <>
       <Authenticated>
-        <div className="flex flex-col gap-12 justify-center items-center">
-          <MessageForm />
+        <div className="flex flex-col justify-center items-center gap-16">
+          <h1 className="mt-20 text-3xl font-bold">Form Channel</h1>
+          <div className="flex flex-col gap-12 justify-center items-center">
+            <MessageForm />
+          </div>
+          <div className="flex flex-col justify-center items-center">
+            <FormChannel />
+          </div>
         </div>
       </Authenticated>
       <Unauthenticated>
@@ -37,6 +44,7 @@ export default function FormPage() {
 
 function MessageForm() {
   const { mutate } = useMutation({ mutationFn: useConvexMutation(api.messages.send) })
+  const { data: channel } = useSuspenseQuery(convexQuery(api.channels.getBySlug, { slug: "form" }))
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,7 +56,7 @@ function MessageForm() {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const { body } = values
-    mutate({ body })
+    mutate({ body, channel: channel._id })
     console.log("Mutate Ran!")
   }
 
@@ -80,3 +88,23 @@ function MessageForm() {
 }
 
 
+function FormChannel() {
+  const { data: channel } = useSuspenseQuery(convexQuery(api.channels.getBySlug, { slug: "form" }))
+  const { data: messages } = useSuspenseQuery(convexQuery(api.messages.getForChannel, { id: channel._id }))
+  return (
+    <div>
+      <ul className="space-y-7">
+        {messages.map((message, index) => (
+          <li key={index}>
+            <p>{message.userName}</p>
+            <Card>
+              <CardContent>
+                <p>{message.body}</p>
+              </CardContent>
+            </Card>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
