@@ -29,7 +29,8 @@ export default function Home() {
 
 function Content() {
   const [message, setMessage] = useState("")
-  const { data: messages, isPending } = useSuspenseQuery(convexQuery(api.messages.getForCurrentUser, {}))
+  const { data: homeChannel } = useSuspenseQuery(convexQuery(api.channels.getBySlug, { slug: "home" }))
+  const { data: messages, isPending } = useSuspenseQuery(convexQuery(api.messages.getForChannel, { id: homeChannel._id }))
 
   const { mutate } = useMutation({ mutationFn: useConvexMutation(api.messages.send) })
 
@@ -53,7 +54,7 @@ function Content() {
       <form action="" onSubmit={(e) => e.preventDefault()}>
         <div className="flex flex-col justify-center gap-4">
           <Input type="text" onChange={(e) => setMessage(e.target.value)} defaultValue={message} />
-          {/* <Button type="submit" onClick={() => mutate({ body: message, channel: "homepage" })}>Sumbit</Button> */}
+          <Button type="submit" onClick={() => mutate({ body: message, channel: homeChannel._id })}>Sumbit</Button>
         </div>
       </form>
     </div>

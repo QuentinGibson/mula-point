@@ -12,6 +12,24 @@ export const list = query({
   handler: async (ctx, _args) => ctx.db.query("channels").collect()
 })
 
+export const getBySlug = query({
+  args: {
+    slug: v.string()
+  },
+  handler: async (ctx, args) => {
+    const channel = await ctx.db
+      .query("channels")
+      .withIndex("by_slug", q => q.eq("slug", args.slug))
+      .unique()
+
+    if (!channel) {
+      throw new Error("Create a home channel! No home channel found")
+    }
+
+    return channel
+  }
+})
+
 
 export const create = mutation({
   args: { name: v.string(), slug: v.string() },
