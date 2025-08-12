@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "predev": "convex dev --run init --until-success",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -16,6 +17,7 @@
     "@clerk/nextjs": "^6.30.0",
     "@convex-dev/rate-limiter": "^0.2.12",
     "@convex-dev/react-query": "0.0.0-alpha.11",
+    "@faker-js/faker": "^9.9.0",
     "@hookform/resolvers": "^5.2.1",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",

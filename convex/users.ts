@@ -1,4 +1,5 @@
-import { mutation } from "./_generated/server"
+import { internalMutation, mutation } from "./_generated/server"
+import { faker } from "@faker-js/faker"
 
 export const store = mutation({
   args: {},
@@ -25,5 +26,18 @@ export const store = mutation({
       name: identity.name || "Anonymous",
       tokenIdentifier: identity.tokenIdentifier
     })
+  }
+})
+
+export const createFake = internalMutation({
+  handler: async (ctx) => {
+    faker.seed()
+
+    for (let i = 0; i < 200; i++) {
+      await ctx.db.insert("users", {
+        name: faker.internet.username(),
+        tokenIdentifier: faker.internet.jwt()
+      })
+    }
   }
 })

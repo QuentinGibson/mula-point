@@ -10,6 +10,7 @@
 
 import type * as channelUsers from "../channelUsers.js";
 import type * as channels from "../channels.js";
+import type * as init from "../init.js";
 import type * as messages from "../messages.js";
 import type * as postTags from "../postTags.js";
 import type * as posts from "../posts.js";
@@ -33,6 +34,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   channelUsers: typeof channelUsers;
   channels: typeof channels;
+  init: typeof init;
   messages: typeof messages;
   postTags: typeof postTags;
   posts: typeof posts;

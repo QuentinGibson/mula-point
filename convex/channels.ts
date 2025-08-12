@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { internalMutation, mutation, query } from "./_generated/server";
 import schema from "./schema";
 import { partial } from "convex-helpers/validators";
 
@@ -30,6 +30,18 @@ export const getBySlug = query({
   }
 })
 
+export const adminCreate = internalMutation({
+  args: { name: v.string(), slug: v.string() },
+  handler: async (ctx, args) => {
+    const { name, slug } = args
+
+    // Create a new channel
+    await ctx.db.insert("channels", {
+      name,
+      slug
+    })
+  }
+})
 
 export const create = mutation({
   args: { name: v.string(), slug: v.string() },
