@@ -26,9 +26,9 @@ function ChatBoard() {
     }
   })
   const { data: messages } = useQuery({
-    ...convexQuery(api.messages.getForRoom, { 
-      roomId: currentRoom!, 
-      roomType: roomType! 
+    ...convexQuery(api.messages.getForRoom, {
+      roomId: currentRoom!,
+      roomType: roomType!
     }),
     enabled: !!currentRoom && !!roomType
   })
@@ -43,7 +43,7 @@ function ChatBoard() {
   }
 
   return (
-    <div className="w-full h-full grid grid-rows-[1fr_60px] border-r border-r-border">
+    <div className="w-full h-full grid grid-rows-[1fr_60px] border-r border-r-border overflow-x-scroll">
       <div className="flex flex-col space-y-4 p-4">
         {messages?.map((item, index) => {
           if (item.messageType === "date_separator") {
@@ -86,7 +86,7 @@ function ChatBoard() {
           );
         })}
       </div>
-      <div className="border-t border-t-border">
+      <div className="border-t border-t-border absolute bottom-0 h-[60px] bg-white w-full">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full h-full">
             <FormField

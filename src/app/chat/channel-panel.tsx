@@ -18,15 +18,15 @@ function ChannelPanel() {
   const changeRoom = useChatroomStore((store) => store.changeRoom)
   return (
     <div className="w-full h-full grid grid-rows-[1fr_4fr_auto] border-r border-r-border">
-      <div className="px-5 flex flex-col w-full h-full py-5">
+      <div className="px-5 grid grid-rows-[auto_1fr]  w-full h-full py-5">
         <p className="flex justify-between items-center text-secondary-foreground/50 uppercase text-sm tracking-tight mb-2.5">
           <span>All Channels</span>
           <PlusCircle className="size-3" />
         </p>
-        <ul className="p-0">
+        <ul className="p-0 grid grid-flow-row h-fit items-start">
           {channels && channels.length > 0 ? (
             channels.map((channel) => (
-              <li key={channel._id} onClick={() => changeRoom(channel._id, "channel")}>
+              <li className="h-fit" key={channel._id} onClick={() => changeRoom(channel._id, "channel")}>
                 <Button
                   variant={"link"}
                   className={cn("font-medium text-sm p-0 text-primary", { "text-blue-600": currentRoom === channel._id })} >
@@ -39,7 +39,7 @@ function ChannelPanel() {
           )}
         </ul>
       </div>
-      <div className="border-t border-t-border py-5 px-2.5 grid grid-flow-row">
+      <div className="border-t border-t-border py-5 px-2.5 grid grid-rows-[auto_1fr]">
         <p className="text-foreground/60 uppercase text-sm px-2.5 mb-2.5">Direct Message</p>
         <ul className="p-0">
           {directMessages && directMessages.length > 0 ? (
