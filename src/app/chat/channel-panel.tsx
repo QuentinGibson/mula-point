@@ -26,7 +26,7 @@ function ChannelPanel() {
         <ul className="p-0">
           {channels && channels.length > 0 ? (
             channels.map((channel) => (
-              <li key={channel._id} onClick={() => changeRoom(channel._id)}>
+              <li key={channel._id} onClick={() => changeRoom(channel._id, "channel")}>
                 <Button
                   variant={"link"}
                   className={cn("font-medium text-sm p-0 text-primary", { "text-blue-600": currentRoom === channel._id })} >
@@ -48,7 +48,7 @@ function ChannelPanel() {
                 <Button
                   variant="link"
                   className={cn("font-medium text-sm p-0 text-primary", { "text-blue-600": currentRoom === dm._id })}
-                  onClick={() => changeRoom(dm._id)}
+                  onClick={() => changeRoom(dm._id, "directMessage")}
                 >
                   {dm.otherUser.name}
                 </Button>

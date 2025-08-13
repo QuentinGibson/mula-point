@@ -17,7 +17,8 @@ const messageSchema = z.object({
 
 function ChatBoard() {
   const currentRoom = useChatroomStore((state) => state.currentRoom)
-  const { mutate } = useMutation({ mutationFn: useConvexMutation(api.messages.send) })
+  const roomType = useChatroomStore((state) => state.roomType)
+  const { mutate } = useMutation({ mutationFn: useConvexMutation(api.messages.sendToRoom) })
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
     defaultValues: {
@@ -25,15 +26,18 @@ function ChatBoard() {
     }
   })
   const { data: messages } = useQuery({
-    ...convexQuery(api.messages.getForChannel, { id: currentRoom! }),
-    enabled: !!currentRoom
+    ...convexQuery(api.messages.getForRoom, { 
+      roomId: currentRoom!, 
+      roomType: roomType! 
+    }),
+    enabled: !!currentRoom && !!roomType
   })
 
-  if (!currentRoom) return <NoChannel />
+  if (!currentRoom || !roomType) return <NoChannel />
 
   const onSubmit = (values: z.infer<typeof messageSchema>) => {
     const { body } = values
-    mutate({ body, channel: currentRoom })
+    mutate({ body, roomId: currentRoom, roomType })
     form.reset()
     console.log("Mutate Ran! Message Sent!")
   }
