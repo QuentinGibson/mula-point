@@ -1,3 +1,5 @@
+//TODO: Fix input box and jump chat to the end
+
 "use client"
 
 import { convexQuery, useConvexMutation } from "@convex-dev/react-query"
