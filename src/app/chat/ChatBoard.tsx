@@ -44,6 +44,7 @@ function ChatBoard() {
   const onSubmit = (values: z.infer<typeof messageSchema>) => {
     const { body } = values
     mutate({ body, channel: currentRoom })
+    form.reset()
     console.log("Mutate Ran! Message Sent!")
   }
 

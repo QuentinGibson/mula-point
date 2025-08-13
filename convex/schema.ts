@@ -57,6 +57,10 @@ export default defineSchema({
     slug: v.string()
   })
     .index("by_slug", ["slug"]),
+  directMessages: defineTable({
+    participants: v.array(v.id("users")),
+    type: v.literal("dm")
+  }),
   channelUsers: defineTable({
     channel: v.id("channels"),
     user: v.id("users"),
