@@ -66,7 +66,8 @@ export default defineSchema({
     directMessage: v.id("directMessages"),
     user: v.id("users")
   })
-    .index("by_user", ["user"]),
+    .index("by_user", ["user"])
+    .index("by_directMessage", ["directMessage"]),
   channelUsers: defineTable({
     channel: v.id("channels"),
     user: v.id("users"),

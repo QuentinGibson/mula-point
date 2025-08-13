@@ -12,6 +12,7 @@ function ChannelPanel() {
 
   const { data: userName } = useSuspenseQuery(convexQuery(api.users.getUsername, {}))
   const { data: channels } = useSuspenseQuery(convexQuery(api.channelUsers.listChannels, {}))
+  const { data: directMessages } = useSuspenseQuery(convexQuery(api.directMessages.list, {}))
   const currentRoom = useChatroomStore((state) => state.currentRoom)
 
   const changeRoom = useChatroomStore((store) => store.changeRoom)
@@ -38,7 +39,26 @@ function ChannelPanel() {
           )}
         </ul>
       </div>
-      <p className="h-full">Direct Messages</p>
+      <div className="border-t border-t-border py-5 px-2.5 grid grid-flow-row">
+        <p className="text-foreground/60 uppercase text-sm px-2.5 mb-2.5">Direct Message</p>
+        <ul className="p-0">
+          {directMessages && directMessages.length > 0 ? (
+            directMessages.map((dm) => (
+              <li key={dm._id} className="px-2.5">
+                <Button
+                  variant="link"
+                  className={cn("font-medium text-sm p-0 text-primary", { "text-blue-600": currentRoom === dm._id })}
+                  onClick={() => changeRoom(dm._id)}
+                >
+                  {dm.otherUser.name}
+                </Button>
+              </li>
+            ))
+          ) : (
+            <li className="px-2.5 text-sm text-muted-foreground">No direct messages</li>
+          )}
+        </ul>
+      </div>
       <div className="w-full h-full grid grid-flow-col items-center justify-between border-t border-t-border px-3">
         <div className="grid grid-flow-col items-center gap-2 h-[60px]">
           <Image src="/globe.svg" alt="User Profile" width={32} height={32} />
