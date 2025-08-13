@@ -18,11 +18,13 @@ function MemberList() {
       <p className="text-sm text-foreground/70 px-4">Members List</p>
       <div className="grid grid-flow-row justify-start mt-2.5">
         {members?.map((member, index) => (
-          <Button key={index} variant={"link"} className="justify-start">
+          <Button key={index} variant={"link"} className="justify-start hover:no-underline hover:bg-gray-300 py-6 rounded-none">
             <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-medium text-sm">
               <p className="font-medium text-sm">{member?.name.slice(0, 1).toUpperCase() || "U"}</p>
             </div>
-            {member?.name}
+            <span className="font-semibold text-gray-900 text-sm">
+              {member?.name}
+            </span>
           </Button>
         ))
         }
