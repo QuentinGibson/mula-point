@@ -1,5 +1,7 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import { faker } from "@faker-js/faker"
+import { internalMutationGeneric } from "convex/server"
 
 export const listChannels = query({
   args: {},
@@ -135,3 +137,4 @@ export const removeUser = mutation({
     await ctx.db.delete(channelUser._id)
   }
 })
+
