@@ -11,8 +11,6 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Authenticated, Unauthenticated } from "convex/react"
 import Link from "next/link"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import TimeAgo from 'react-timeago'
 
 const formSchema = z.object({
   body: z.string(),
@@ -27,9 +25,6 @@ export default function FormPage() {
           <h1 className="mt-20 text-3xl font-bold">Form Channel</h1>
           <div className="flex flex-col gap-12 justify-center items-center">
             <MessageForm />
-          </div>
-          <div className="flex flex-col justify-center items-center">
-            <FormChannel />
           </div>
         </div>
       </Authenticated>
@@ -87,24 +82,3 @@ function MessageForm() {
   )
 }
 
-
-function FormChannel() {
-  const { data: channel } = useSuspenseQuery(convexQuery(api.channels.getBySlug, { slug: "form" }))
-  const { data: messages } = useSuspenseQuery(convexQuery(api.messages.getForChannel, { id: channel._id }))
-  return (
-    <div>
-      <ul className="space-y-7">
-        {messages.map((message, index) => (
-          <li key={index}>
-            <p>{message.userName}</p>
-            <Card>
-              <CardContent>
-                <p>{message.body}</p>
-              </CardContent>
-            </Card>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
