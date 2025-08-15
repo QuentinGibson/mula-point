@@ -74,7 +74,37 @@ export default defineSchema({
   })
     .index("channel", ["channel"])
     .index("user", ["user"])
-    .index("channel_user", ["channel", "user"])
+    .index("channel_user", ["channel", "user"]),
+  shows: defineTable({
+    title: v.string(),
+    releaseDate: v.string(),
+    snippet: v.string(),
+    description: v.string(),
+    isNew: v.boolean(),
+    largeThumbnail: v.id("_storage"),
+    sideThumbnail: v.id("_storage")
+  }),
+  genres: defineTable({
+    show: v.id("shows"),
+    name: v.string(),
+  })
+    .index("by_show", ["show"])
+    .index("by_name", ["name"]),
+  seasons: defineTable({
+    show: v.id("shows"),
+    name: v.string()
+  })
+    .index("by_show", ["show"]),
+  videos: defineTable({
+    title: v.string(),
+    videoLength: v.number(),
+    library: v.string(),
+    bunnyId: v.string(),
+    thunbnail: v.optional(v.string()),
+    season: v.id("seasons")
+  })
+    .index("by_library_bunnyId", ["library", "bunnyId"])
+    .index("by_season", ["season"])
 });
 
 

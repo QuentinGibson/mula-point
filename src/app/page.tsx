@@ -28,36 +28,7 @@ export default function Home() {
 }
 
 function Content() {
-  const [message, setMessage] = useState("")
-  const { data: homeChannel } = useSuspenseQuery(convexQuery(api.channels.getBySlug, { slug: "home" }))
-  const { data: messages, isPending } = useSuspenseQuery(convexQuery(api.messages.getForChannel, { id: homeChannel._id }))
-
-  const { mutate } = useMutation({ mutationFn: useConvexMutation(api.messages.send) })
-
   return <div className="flex flex-col items-center justify-center gap-12">
-    <div className="flex flex-col gap-4">
-      <p>Authenticated content: {messages.length}</p>
-      <ul className='space-y-3'>
-        {
-          !isPending && (
-            messages.map((message, index) => (
-              <li key={index}>
-                <div className='flex flex-col gap-1'>
-                  <p>{message.body}</p>
-                  <p>{message.userName}</p>
-                </div>
-              </li>
-            ))
-          )
-        }
-      </ul>
-      <form action="" onSubmit={(e) => e.preventDefault()}>
-        <div className="flex flex-col justify-center gap-4">
-          <Input type="text" onChange={(e) => setMessage(e.target.value)} defaultValue={message} />
-          <Button type="submit" onClick={() => mutate({ body: message, channel: homeChannel._id })}>Sumbit</Button>
-        </div>
-      </form>
-    </div>
     <div className='grid grid-cols-3 gap-4'>
       <Button asChild>
         <Link href="/sample">Go to Sample Page</Link>
@@ -70,6 +41,9 @@ function Content() {
       </Button>
       <Button asChild>
         <Link href="/chat">Go to Chat Page</Link>
+      </Button>
+      <Button asChild>
+        <Link href="/videos">Go to Videos Page</Link>
       </Button>
     </div>
   </div>
