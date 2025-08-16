@@ -11,9 +11,11 @@ if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
   throw new Error('Missing NEXT_PUBLIC_CONVEX_URL in your .env file')
 }
 
+// Init Convex React client
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL)
-
 const convexQueryClient = new ConvexQueryClient(convex);
+
+// Init Tanstack client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -22,7 +24,10 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+// Conntect Tanstack to convex
 convexQueryClient.connect(queryClient);
+
 
 export default function ConvexClientProvider({ children }: { children: ReactNode }) {
   return (

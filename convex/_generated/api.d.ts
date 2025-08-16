@@ -15,8 +15,10 @@ import type * as init from "../init.js";
 import type * as messages from "../messages.js";
 import type * as postTags from "../postTags.js";
 import type * as posts from "../posts.js";
+import type * as shows from "../shows.js";
 import type * as tags from "../tags.js";
 import type * as users from "../users.js";
+import type * as videos from "../videos.js";
 
 import type {
   ApiFromModules,
@@ -40,8 +42,10 @@ declare const fullApi: ApiFromModules<{
   messages: typeof messages;
   postTags: typeof postTags;
   posts: typeof posts;
+  shows: typeof shows;
   tags: typeof tags;
   users: typeof users;
+  videos: typeof videos;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 

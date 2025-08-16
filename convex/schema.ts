@@ -81,8 +81,8 @@ export default defineSchema({
     snippet: v.string(),
     description: v.string(),
     isNew: v.boolean(),
-    largeThumbnail: v.id("_storage"),
-    sideThumbnail: v.id("_storage")
+    largeThumbnail: v.optional(v.id("_storage")),
+    sideThumbnail: v.optional(v.id("_storage"))
   }),
   genres: defineTable({
     show: v.id("shows"),

@@ -9,16 +9,12 @@ export async function GET(
     // Get the libraryId and videoId from params
     const { libraryId, videoId } = await params
 
-    // Create a Bunny connection
-    const bunnyCdnStream = createBunnyCdnStream(libraryId)
-
-    // Get video details
-    const video = await bunnyCdnStream.getVideo(videoId)
-
-    // const resolutions = video.resolutions
-
+    // For now, we'll construct the URLs directly without fetching from Bunny API
+    // The videoId is the GUID we need for the CDN URLs
+    const guid = videoId
+    
     // Create the url that all videos start from
-    const baseUrl = `https://vz-${video.guid}.b-cdn.net/${video.guid}`
+    const baseUrl = `https://vz-${guid}.b-cdn.net/${guid}`
 
     // Create a list of sources for different resolutions
     const sources = {
@@ -39,7 +35,7 @@ export async function GET(
   } catch (error) {
     console.error("Error fetching video data:", error);
     return NextResponse.json(
-      { error: "Failed to fetch video data" },
+      { error: "Failed to fetch video data. From route message" },
       { status: 500 }
     );
   }
