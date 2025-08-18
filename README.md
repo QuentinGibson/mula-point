@@ -150,8 +150,8 @@ Make sure to test all these feature before working on a new clone
 - [x] Implement error tracking (Sentry)
 - [x] Configure rate limiting
 - [x] Add analytics (PostHog)
-- [ ] CMS
 - [ ] Scaffold basic ui with mock data
+- [ ] CMS
 - [ ] Add testing framework
 
 ## New Projects

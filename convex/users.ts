@@ -80,7 +80,7 @@ export const membersFake = internalMutation({
 
     // Get all users
     const allUsers = await ctx.db.query("users").collect()
-    
+
     if (allUsers.length === 0) {
       throw new Error("No users found in database")
     }
@@ -90,19 +90,19 @@ export const membersFake = internalMutation({
       .query("channelUsers")
       .withIndex("channel", q => q.eq("channel", formChannel._id))
       .collect()
-    
+
     const existingUserIds = new Set(existingMembers.map(m => m.user))
-    
+
     // Filter out users already in the channel
     const availableUsers = allUsers.filter(u => !existingUserIds.has(u._id))
-    
+
     // Add random users (up to 20 or available users count)
     const usersToAdd = Math.min(20, availableUsers.length)
-    
+
     for (let i = 0; i < usersToAdd; i++) {
       const randomIndex = Math.floor(Math.random() * availableUsers.length)
       const randomUser = availableUsers.splice(randomIndex, 1)[0]
-      
+
       await ctx.db.insert("channelUsers", {
         channel: formChannel._id,
         user: randomUser._id

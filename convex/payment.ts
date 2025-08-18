@@ -8,7 +8,25 @@ export const pageList = query({
     paginationOpts: paginationOptsValidator
   },
   handler: async (ctx, args) => {
-    await ctx.db.query("payments").paginate(args.paginationOpts)
+    const payments = await ctx.db.query("payments").paginate(args.paginationOpts)
+
+    const paymentsWithUserNames = await Promise.all(
+      payments.page.map(async (payment) => {
+        const user = await ctx.db.get(payment.user)
+        const status = await ctx.db.get(payment.status)
+        const userName = user?.name || "Anonymous"
+        return {
+          ...payment,
+          userName,
+          statusName: status?.name
+        }
+      })
+    )
+
+    return {
+      ...payments,
+      page: paymentsWithUserNames
+    }
   }
 })
 
@@ -27,6 +45,8 @@ export const send = mutation({
 
     const statusRow = await ctx.db.query("paymentStatuses").withIndex("by_name", q => q.eq("name", status)).unique()
     if (!statusRow) throw new Error("Payment status not found while creating payment!")
+
+
 
     await ctx.db.insert("payments", {
       amount,
