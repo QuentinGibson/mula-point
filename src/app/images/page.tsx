@@ -5,19 +5,31 @@ import { Input } from "@/components/ui/input"
 import { convexQuery, useConvexMutation, useConvexQuery } from "@convex-dev/react-query"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useState } from "react"
-import { useForm } from "react-hook-form"
+import { FieldValues, useForm } from "react-hook-form"
 import { api } from "../../../convex/_generated/api"
 import Image from "next/image"
+import { zodResolver } from "@hookform/resolvers/zod"
+import z from "zod"
 
 function ImagePage() {
-  const [picture, setPicture] = useState<File | null>(null)
   const generateUploadUrlConvex = useConvexMutation(api.image.generateUploadUrl)
   const { mutate: sendImage } = useMutation({ mutationFn: useConvexMutation(api.image.sendImage) })
   const { data: images } = useQuery(convexQuery(api.image.list, {}))
 
-  const form = useForm()
-  const onSubmit = async (data: any) => {
+  const imageFormSchema = z.object({
+    picture: z.instanceof(File)
+  })
+
+  const form = useForm<z.infer<typeof imageFormSchema>>({
+    resolver: zodResolver(imageFormSchema),
+    defaultValues: {
+      picture: undefined as any
+    }
+  })
+  const onSubmit = async (data: z.infer<typeof imageFormSchema>) => {
     console.log(data)
+    console.log(`Picture: ${data.picture}`)
+    const picture = data.picture
     const convexUploadUrl = await generateUploadUrlConvex({})
     const result = await fetch(convexUploadUrl, {
       method: "POST",
@@ -44,7 +56,13 @@ function ImagePage() {
                   <FormItem>
                     <FormLabel>Picture</FormLabel>
                     <FormControl>
-                      <Input type="file" {...field} onChange={(e) => setPicture(e.target.files![0])} />
+                      <Input
+                        type="file"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        onChange={(e) => field.onChange(e.target.files?.[0])}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -56,7 +74,9 @@ function ImagePage() {
         </div>
         <div className="flex gap-4">
           {images?.map((image, index) => (
-            <Image key={index} src={image.url!} height={300} width={300} alt="Working" />
+            <div className="aspect-video relative w-full" key={index}>
+              <Image src={image.url!} fill alt="Working" />
+            </div>
           ))}
         </div>
       </div>
