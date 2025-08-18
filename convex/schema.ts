@@ -104,7 +104,10 @@ export default defineSchema({
     season: v.id("seasons")
   })
     .index("by_library_bunnyId", ["library", "bunnyId"])
-    .index("by_season", ["season"])
+    .index("by_season", ["season"]),
+  images: defineTable({
+    path: v.id("_storage")
+  })
 });
 
 

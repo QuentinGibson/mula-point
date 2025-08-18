@@ -11,6 +11,7 @@
 import type * as channelUsers from "../channelUsers.js";
 import type * as channels from "../channels.js";
 import type * as directMessages from "../directMessages.js";
+import type * as image from "../image.js";
 import type * as init from "../init.js";
 import type * as messages from "../messages.js";
 import type * as postTags from "../postTags.js";
@@ -38,6 +39,7 @@ declare const fullApi: ApiFromModules<{
   channelUsers: typeof channelUsers;
   channels: typeof channels;
   directMessages: typeof directMessages;
+  image: typeof image;
   init: typeof init;
   messages: typeof messages;
   postTags: typeof postTags;

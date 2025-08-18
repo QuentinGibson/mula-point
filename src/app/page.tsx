@@ -19,6 +19,8 @@ export default function Home() {
         <SignInButton />
       ) : (
         <>
+
+
           <UserButton />
           <Content />
         </>
@@ -44,6 +46,9 @@ function Content() {
       </Button>
       <Button asChild>
         <Link href="/videos">Go to Videos Page</Link>
+      </Button>
+      <Button asChild>
+        <Link href="/images">Go to Image Upload Page</Link>
       </Button>
     </div>
   </div>
