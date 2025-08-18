@@ -72,7 +72,7 @@ function ImagePage() {
             </form>
           </Form>
         </div>
-        <div className="flex gap-4">
+        <div className="grid grid-cols-2 gap-4 ">
           {images?.map((image, index) => (
             <div className="aspect-video relative w-full" key={index}>
               <Image src={image.url!} fill alt="Working" />

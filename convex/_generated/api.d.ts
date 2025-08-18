@@ -14,6 +14,8 @@ import type * as directMessages from "../directMessages.js";
 import type * as image from "../image.js";
 import type * as init from "../init.js";
 import type * as messages from "../messages.js";
+import type * as payment from "../payment.js";
+import type * as paymentStatuses from "../paymentStatuses.js";
 import type * as postTags from "../postTags.js";
 import type * as posts from "../posts.js";
 import type * as shows from "../shows.js";
@@ -42,6 +44,8 @@ declare const fullApi: ApiFromModules<{
   image: typeof image;
   init: typeof init;
   messages: typeof messages;
+  payment: typeof payment;
+  paymentStatuses: typeof paymentStatuses;
   postTags: typeof postTags;
   posts: typeof posts;
   shows: typeof shows;

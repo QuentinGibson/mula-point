@@ -107,7 +107,17 @@ export default defineSchema({
     .index("by_season", ["season"]),
   images: defineTable({
     path: v.id("_storage")
-  })
+  }),
+  payments: defineTable({
+    amount: v.number(),
+    status: v.id("paymentStatuses"),
+    user: v.id("users"),
+    paymentDate: v.number()
+
+  }),
+  paymentStatuses: defineTable({
+    name: v.string(),
+  }).index("by_name", ["name"])
 });
 
 
