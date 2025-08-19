@@ -3,8 +3,9 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { api } from "../../../convex/_generated/api"
 import { PaginatedQueryItem } from "convex/react"
-import { ArrowDown, ArrowUp, ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +19,28 @@ import {
 export type Payments = Awaited<PaginatedQueryItem<typeof api.payment.pageList>>
 
 export const columns: ColumnDef<Payments>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllRowsSelected() ||
+          (table.getIsSomeRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false
+  },
   {
     accessorKey: "statusName",
     header: "Status"
@@ -51,7 +74,6 @@ export const columns: ColumnDef<Payments>[] = [
     id: "actions",
     cell: ({ row }) => {
       const payment = row.original
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

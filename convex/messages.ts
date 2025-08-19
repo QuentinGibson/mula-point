@@ -247,19 +247,19 @@ export const sendToRoom = mutation({
     if (!user) {
       throw new Error("Unauthenticated call to mutation")
     }
-    
+
     // Create message with appropriate room field
     const messageData: any = {
       body: args.body,
       author: user._id
     }
-    
+
     if (args.roomType === "channel") {
       messageData.channel = args.roomId as Id<"channels">
     } else {
       messageData.directMessage = args.roomId as Id<"directMessages">
     }
-    
+
     const newMessageId = await ctx.db.insert("messages", messageData)
     return newMessageId
   }
