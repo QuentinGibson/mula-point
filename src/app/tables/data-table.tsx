@@ -18,9 +18,7 @@ import {
   TableHead,
   TableRow,
   TableHeader,
-  TableFooter,
   TableCell,
-  TableCaption
 } from "@/components/ui/table"
 import {
   DropdownMenu,
@@ -37,11 +35,19 @@ import clsx from "clsx"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  pageIndex?: number
+  pageSize?: number
+  onPageChange?: (pageIndex: number) => void
+  onPageSizeChange?: (pageSize: number) => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data
+  data,
+  pageIndex = 0,
+  pageSize = 20,
+  onPageChange,
+  onPageSizeChange
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -58,12 +64,17 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    manualPagination: false,
+    manualPagination: true,
+    pageCount: -1,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection
+      rowSelection,
+      pagination: {
+        pageIndex,
+        pageSize
+      }
     }
   })
 
@@ -149,16 +160,16 @@ export function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
+          onClick={() => onPageChange?.(pageIndex - 1)}
+          disabled={pageIndex === 0}
         >
           Previous
         </Button>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
+          onClick={() => onPageChange?.(pageIndex + 1)}
+          disabled={data.length < pageSize}
         >
           Next
         </Button>

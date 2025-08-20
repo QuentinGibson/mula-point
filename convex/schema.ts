@@ -114,7 +114,7 @@ export default defineSchema({
     user: v.id("users"),
     paymentDate: v.number()
 
-  }),
+  }).index("by_paymentDate", ["paymentDate"]),
   paymentStatuses: defineTable({
     name: v.string(),
   }).index("by_name", ["name"])
