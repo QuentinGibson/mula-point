@@ -1,8 +1,7 @@
 import { query } from "./_generated/server";
 import { v } from "convex/values";
-import { queryWithAuth } from "./queryWithAuth";
 
-export const getByLibraryAndBunnyId = queryWithAuth({
+export const getByLibraryAndBunnyId = query({
   args: {
     library: v.string(),
     bunnyId: v.string()
@@ -65,7 +64,7 @@ export const getVideoById = query({
 });
 
 // Get all videos for a season
-export const getBySeasonId = queryWithAuth({
+export const getBySeasonId = query({
   args: {
     seasonId: v.id("seasons")
   },

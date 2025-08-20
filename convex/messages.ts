@@ -1,7 +1,6 @@
 import { v } from 'convex/values'
-import { mutation } from './_generated/server'
-import { Doc, Id } from './_generated/dataModel';
-import { queryWithAuth } from './queryWithAuth';
+import { mutation, query } from './_generated/server'
+import { Id } from './_generated/dataModel';
 
 type DateSeparator = {
   id: string;
@@ -24,7 +23,7 @@ type MessageWithTimestamp = {
 
 type ChatItem = DateSeparator | MessageWithTimestamp;
 
-export const getForCurrentUser = queryWithAuth({
+export const getForCurrentUser = query({
   args: {},
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity()
@@ -59,7 +58,7 @@ export const getForCurrentUser = queryWithAuth({
   },
 });
 
-export const getForChannel = queryWithAuth({
+export const getForChannel = query({
   args: {
     id: v.id("channels")
   },
@@ -139,7 +138,7 @@ export const getForChannel = queryWithAuth({
   }
 })
 
-export const getForRoom = queryWithAuth({
+export const getForRoom = query({
   args: {
     roomId: v.union(v.id("channels"), v.id("directMessages")),
     roomType: v.union(v.literal("channel"), v.literal("directMessage"))
@@ -276,7 +275,7 @@ export const send = mutation({
   }
 })
 
-export const list = queryWithAuth({
+export const list = query({
   args: {},
   handler: async (ctx, _args) => {
     const messages = await ctx.db.query('messages').take(50)

@@ -1,9 +1,8 @@
-import { internalMutation, mutation } from "./_generated/server";
+import { internalMutation, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { faker } from "@faker-js/faker";
-import { queryWithAuth } from "./queryWithAuth";
 
-export const list = queryWithAuth({
+export const list = query({
   args: {},
   handler: async (ctx, _args) => {
     // Check if user is logged in

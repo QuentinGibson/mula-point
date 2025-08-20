@@ -1,8 +1,7 @@
 import { v } from "convex/values"
-import { mutation } from "./_generated/server"
-import { queryWithAuth } from "./queryWithAuth"
+import { mutation, query } from "./_generated/server"
 
-export const listChannels = queryWithAuth({
+export const listChannels = query({
   args: {},
   handler: async (ctx, _args) => {
     // Check if user is logged in
@@ -40,7 +39,7 @@ export const listChannels = queryWithAuth({
   }
 })
 
-export const listUsers = queryWithAuth({
+export const listUsers = query({
   args: { id: v.id("channels") },
   handler: async (ctx, args) => {
     // Get all users relations that include channel

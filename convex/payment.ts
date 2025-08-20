@@ -6,7 +6,7 @@ import { DataModel } from "./_generated/dataModel";
 import { TableAggregate } from "@convex-dev/aggregate"
 import { Triggers } from "convex-helpers/server/triggers"
 import { customMutation, customCtx } from "convex-helpers/server/customFunctions"
-import { queryWithAuth } from "./queryWithAuth"
+import { query } from "./_generated/server"
 
 const triggers = new Triggers<DataModel>()
 
@@ -26,7 +26,7 @@ const mutationWithTriggers = customMutation(
   customCtx(triggers.wrapDB)
 )
 
-export const pageList = queryWithAuth({
+export const pageList = query({
   args: {
     offset: v.number(),
     numItems: v.number(),
@@ -93,7 +93,7 @@ export const send = mutationWithTriggers({
   }
 })
 
-export const paymentsCount = queryWithAuth({
+export const paymentsCount = query({
   args: {},
   handler: async (ctx, _args) => {
     const count = await aggregateByPaymentDate.count(ctx)
@@ -101,7 +101,7 @@ export const paymentsCount = queryWithAuth({
   }
 })
 
-export const rankOfPayment = queryWithAuth({
+export const rankOfPayment = query({
   args: {
     paymentDate: v.number()
   },

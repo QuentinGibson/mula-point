@@ -1,8 +1,7 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
-import { queryWithAuth } from "./queryWithAuth";
+import { mutation, query } from "./_generated/server";
 
-export const list = queryWithAuth({
+export const list = query({
   args: {},
   handler: async (ctx) => {
     const images = await ctx.db.query("images").collect()
