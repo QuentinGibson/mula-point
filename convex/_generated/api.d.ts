@@ -18,7 +18,6 @@ import type * as payment from "../payment.js";
 import type * as paymentStatuses from "../paymentStatuses.js";
 import type * as postTags from "../postTags.js";
 import type * as posts from "../posts.js";
-import type * as queryWithAuth from "../queryWithAuth.js";
 import type * as shows from "../shows.js";
 import type * as tags from "../tags.js";
 import type * as users from "../users.js";
@@ -49,7 +48,6 @@ declare const fullApi: ApiFromModules<{
   paymentStatuses: typeof paymentStatuses;
   postTags: typeof postTags;
   posts: typeof posts;
-  queryWithAuth: typeof queryWithAuth;
   shows: typeof shows;
   tags: typeof tags;
   users: typeof users;
