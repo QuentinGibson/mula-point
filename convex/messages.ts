@@ -1,6 +1,7 @@
 import { v } from 'convex/values'
-import { mutation, query } from './_generated/server'
+import { mutation } from './_generated/server'
 import { Id } from './_generated/dataModel';
+import { queryWithAuth } from './useAuthQuery';
 
 type DateSeparator = {
   id: string;
@@ -23,7 +24,7 @@ type MessageWithTimestamp = {
 
 type ChatItem = DateSeparator | MessageWithTimestamp;
 
-export const getForCurrentUser = query({
+export const getForCurrentUser = queryWithAuth({
   args: {},
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity()
@@ -31,7 +32,11 @@ export const getForCurrentUser = query({
       throw new Error('Not authenticated')
     }
 
-    const user = await ctx.db.query("users").withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier)).unique()
+    const user = await ctx
+      .db
+      .query("users")
+      .withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier))
+      .unique()
 
     if (!user) {
       throw new Error("Unauthenticated call to getForCurrentUser")
@@ -54,22 +59,17 @@ export const getForCurrentUser = query({
   },
 });
 
-export const getForChannel = query({
+export const getForChannel = queryWithAuth({
   args: {
     id: v.id("channels")
   },
   handler: async (ctx, args) => {
 
-    const identity = await ctx.auth.getUserIdentity()
-    if (!identity) {
-      throw new Error("Called storeUser without authentication!")
-    }
-    const user = await ctx.db.query("users").withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier)).unique()
-    if (!user) {
-      throw new Error("Unauthicated call to mutation")
-    }
-
-    const channel = await ctx.db.query("channels").withIndex("by_id", q => q.eq("_id", args.id)).unique()
+    const channel = await ctx
+      .db
+      .query("channels")
+      .withIndex("by_id", q => q.eq("_id", args.id))
+      .unique()
 
     if (!channel) {
       throw new Error("Channel not found!")
@@ -139,21 +139,12 @@ export const getForChannel = query({
   }
 })
 
-export const getForRoom = query({
+export const getForRoom = queryWithAuth({
   args: {
     roomId: v.union(v.id("channels"), v.id("directMessages")),
     roomType: v.union(v.literal("channel"), v.literal("directMessage"))
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
-    if (!identity) {
-      throw new Error("Called getForRoom without authentication!")
-    }
-    const user = await ctx.db.query("users").withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier)).unique()
-    if (!user) {
-      throw new Error("Unauthenticated call to query")
-    }
-
     const formatMessageTime = (timestamp: number) => {
       const date = new Date(timestamp);
       const now = new Date();
@@ -284,7 +275,7 @@ export const send = mutation({
   }
 })
 
-export const list = query({
+export const list = queryWithAuth({
   args: {},
   handler: async (ctx, _args) => {
     const messages = await ctx.db.query('messages').take(50)

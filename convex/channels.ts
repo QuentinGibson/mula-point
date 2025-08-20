@@ -1,18 +1,22 @@
 import { v } from "convex/values";
-import { internalMutation, mutation, query } from "./_generated/server";
+import { internalMutation, mutation } from "./_generated/server";
 import schema from "./schema";
 import { partial } from "convex-helpers/validators";
+import { queryWithAuth } from "./useAuthQuery";
 
 
 const channelFields = schema.tables.channels.validator.fields
 
-export const list = query({
+export const list = queryWithAuth({
   args: {},
   // Get all channels
-  handler: async (ctx, _args) => ctx.db.query("channels").collect()
+  handler: async (ctx, _args) => ctx
+    .db
+    .query("channels")
+    .collect()
 })
 
-export const getBySlug = query({
+export const getBySlug = queryWithAuth({
   args: {
     slug: v.string()
   },

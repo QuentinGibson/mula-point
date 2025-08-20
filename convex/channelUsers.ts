@@ -1,12 +1,10 @@
 import { v } from "convex/values"
-import { mutation, query } from "./_generated/server"
-import { faker } from "@faker-js/faker"
-import { internalMutationGeneric } from "convex/server"
+import { mutation } from "./_generated/server"
+import { queryWithAuth } from "./useAuthQuery"
 
-export const listChannels = query({
+export const listChannels = queryWithAuth({
   args: {},
   handler: async (ctx, _args) => {
-
     // Check if user is logged in
     const identifier = await ctx.auth.getUserIdentity()
 
@@ -26,7 +24,10 @@ export const listChannels = query({
     }
 
     // Get all channel relations that include user
-    const channelRelations = await ctx.db.query("channelUsers").withIndex("user", q => q.eq("user", user._id)).collect()
+    const channelRelations = await ctx.db
+      .query("channelUsers")
+      .withIndex("user", q => q.eq("user", user._id))
+      .collect()
 
     // Get then return channel information 
     const channels = await Promise.all(channelRelations.map((channelUser) => {
@@ -39,27 +40,9 @@ export const listChannels = query({
   }
 })
 
-export const listUsers = query({
+export const listUsers = queryWithAuth({
   args: { id: v.id("channels") },
   handler: async (ctx, args) => {
-    // Check if user is logged in
-    const identifier = await ctx.auth.getUserIdentity()
-
-    // Throw if no user
-    if (!identifier) {
-      throw new Error("User is not authenticated")
-    }
-
-    // Check if user is in system
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_token", q => q.eq("tokenIdentifier", identifier.tokenIdentifier))
-      .unique()
-    // Otherwise throw
-    if (!user) {
-      throw new Error("User does not exist!")
-    }
-
     // Get all users relations that include channel
     const channelRelations = await ctx.db
       .query("channelUsers")
@@ -77,24 +60,6 @@ export const listUsers = query({
 export const addUser = mutation({
   args: { channel: v.id("channels"), user: v.id("users") },
   handler: async (ctx, args) => {
-    // Check if user is logged in
-    const identifier = await ctx.auth.getUserIdentity()
-
-    // Throw if no user
-    if (!identifier) {
-      throw new Error("User is not authenticated")
-    }
-
-    // Check if user is in system
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_token", q => q.eq("tokenIdentifier", identifier.tokenIdentifier))
-      .unique()
-    // Otherwise throw
-    if (!user) {
-      throw new Error("User does not exist!")
-    }
-
     // Add the user to the channel
     await ctx.db
       .insert("channelUsers", { channel: args.channel, user: args.user })
@@ -104,24 +69,6 @@ export const addUser = mutation({
 export const removeUser = mutation({
   args: { channel: v.id("channels"), user: v.id("users") },
   handler: async (ctx, args) => {
-    // Check if user is logged in
-    const identifier = await ctx.auth.getUserIdentity()
-
-    // Throw if no user
-    if (!identifier) {
-      throw new Error("User is not authenticated")
-    }
-
-    // Check if user is in system
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_token", q => q.eq("tokenIdentifier", identifier.tokenIdentifier))
-      .unique()
-    // Otherwise throw
-    if (!user) {
-      throw new Error("User does not exist!")
-    }
-
     // Find the relation for the channel and the user
     const channelUser = await ctx.db
       .query("channelUsers")

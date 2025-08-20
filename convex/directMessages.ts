@@ -1,8 +1,9 @@
-import { internalMutation, mutation, query } from "./_generated/server";
+import { internalMutation, mutation } from "./_generated/server";
 import { v } from "convex/values";
 import { faker } from "@faker-js/faker";
+import { queryWithAuth } from "./useAuthQuery";
 
-export const list = query({
+export const list = queryWithAuth({
   args: {},
   handler: async (ctx, _args) => {
     // Check if user is logged in
@@ -121,32 +122,32 @@ export const whisper = mutation({
 export const dmFake = internalMutation({
   handler: async (ctx) => {
     faker.seed(123) // Use consistent seed for reproducible results
-    
+
     // Find the quentmadeit user
     const quentUser = await ctx.db
       .query("users")
       .filter(q => q.eq(q.field("name"), "quentmadeit"))
       .first()
-    
+
     if (!quentUser) {
       throw new Error("User 'quentmadeit' not found. Please create this user first.")
     }
-    
+
     // Get all other users (excluding quentmadeit)
     const allUsers = await ctx.db
       .query("users")
       .collect()
-    
+
     const otherUsers = allUsers.filter(u => u._id !== quentUser._id)
-    
+
     if (otherUsers.length === 0) {
       throw new Error("No other users found to create DMs with")
     }
-    
+
     // Select random users to create DMs with (up to 10 or available users)
     const numDMs = Math.min(10, otherUsers.length)
     const selectedUsers = faker.helpers.shuffle(otherUsers).slice(0, numDMs)
-    
+
     // Create DM channels and populate with messages
     for (const otherUser of selectedUsers) {
       // Check if DM already exists between these users
@@ -154,7 +155,7 @@ export const dmFake = internalMutation({
         .query("directMessageUsers")
         .withIndex("by_user", q => q.eq("user", quentUser._id))
         .collect()
-      
+
       let dmExists = false
       for (const dm of existingDMs) {
         const otherUserInDM = await ctx.db
@@ -162,51 +163,51 @@ export const dmFake = internalMutation({
           .withIndex("by_directMessage", q => q.eq("directMessage", dm.directMessage))
           .filter(q => q.eq(q.field("user"), otherUser._id))
           .first()
-        
+
         if (otherUserInDM) {
           dmExists = true
           break
         }
       }
-      
+
       if (dmExists) {
         console.log(`DM already exists between quentmadeit and ${otherUser.name}`)
         continue
       }
-      
+
       // Create the DM channel
       const dmChannelId = await ctx.db.insert("directMessages", {
         slug: `dm-${quentUser.name}-${otherUser.name}`
       })
-      
+
       // Add both users to the DM channel
       await ctx.db.insert("directMessageUsers", {
         user: quentUser._id,
         directMessage: dmChannelId
       })
-      
+
       await ctx.db.insert("directMessageUsers", {
         user: otherUser._id,
         directMessage: dmChannelId
       })
-      
+
       // Generate random messages between the users
       const numMessages = faker.number.int({ min: 5, max: 20 })
-      
+
       for (let i = 0; i < numMessages; i++) {
         const isFromQuent = faker.datatype.boolean()
         const author = isFromQuent ? quentUser : otherUser
-        
+
         await ctx.db.insert("messages", {
           body: faker.lorem.sentence(),
           author: author._id,
           directMessage: dmChannelId
         })
       }
-      
+
       console.log(`Created DM between quentmadeit and ${otherUser.name} with ${numMessages} messages`)
     }
-    
+
     return `Created ${selectedUsers.length} DM conversations for quentmadeit`
   }
 })

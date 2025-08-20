@@ -9,21 +9,25 @@ import { columns } from "./columns";
 export default function TablesPage() {
   const [pageIndex, setPageIndex] = useState(0)
   const [pageSize, setPageSize] = useState(20)
-  
+
   const { data: results } = useSuspenseQuery({
     ...convexQuery(api.payment.pageList, { numItems: pageSize, offset: pageIndex * pageSize }),
   })
-  
+  const { data: count } = useSuspenseQuery({
+    ...convexQuery(api.payment.paymentsCount, {})
+  })
+
   return (
     <section>
       <div className="max-w-3xl mx-auto py-10">
-        <DataTable 
-          columns={columns} 
-          data={results} 
+        <DataTable
+          columns={columns}
+          data={results}
           pageIndex={pageIndex}
           pageSize={pageSize}
           onPageChange={setPageIndex}
           onPageSizeChange={setPageSize}
+          rowCount={count}
         />
       </div>
     </section>

@@ -39,6 +39,7 @@ interface DataTableProps<TData, TValue> {
   pageSize?: number
   onPageChange?: (pageIndex: number) => void
   onPageSizeChange?: (pageSize: number) => void
+  rowCount: number
 }
 
 export function DataTable<TData, TValue>({
@@ -47,7 +48,8 @@ export function DataTable<TData, TValue>({
   pageIndex = 0,
   pageSize = 20,
   onPageChange,
-  onPageSizeChange
+  onPageSizeChange,
+  rowCount
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -65,7 +67,7 @@ export function DataTable<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     manualPagination: true,
-    pageCount: -1,
+    rowCount,
     state: {
       sorting,
       columnFilters,
@@ -73,10 +75,11 @@ export function DataTable<TData, TValue>({
       rowSelection,
       pagination: {
         pageIndex,
-        pageSize
+        pageSize,
       }
-    }
+    },
   })
+
 
   return (
     <>
@@ -156,23 +159,30 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div >
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => onPageChange?.(pageIndex - 1)}
-          disabled={pageIndex === 0}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => onPageChange?.(pageIndex + 1)}
-          disabled={data.length < pageSize}
-        >
-          Next
-        </Button>
+      <div className="flex items-center justify-between space-x-2 py-4">
+        <div>
+          <p>
+            {pageIndex * pageSize}-{(pageIndex + 1) * pageSize} of {rowCount}
+          </p>
+        </div>
+        <div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onPageChange?.(pageIndex - 1)}
+            disabled={pageIndex === 0}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onPageChange?.(pageIndex + 1)}
+            disabled={pageIndex + 1 >= table.getPageCount()}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </>
   )
