@@ -7,12 +7,15 @@ import { Button } from "@/components/ui/button"
 
 function MemberList() {
   const currentChannel = useChatroomStore((state) => state.currentRoom)
+  const roomType = useChatroomStore((state) => state.roomType)
   const { data: members } = useQuery({
     ...convexQuery(api.channelUsers.listUsers, { id: currentChannel! }),
-    enabled: !!currentChannel
+    enabled: !!currentChannel && roomType === "channel"
   })
 
-  if (!currentChannel) <NoChannel />
+  if (!currentChannel) return <NoChannel />
+  if (roomType !== "channel") return <NoChannelMembers />
+  
   return (
     <div className="grid grid-rows-[auto_1fr] px-2.5 py-5 uppercase border-l border-l-border overflow-x-scroll">
       <p className="text-sm text-foreground/70 px-4">Members List</p>
@@ -39,6 +42,17 @@ function NoChannel() {
   return (
     <div>
       Select a channel
+    </div>
+  )
+}
+
+function NoChannelMembers() {
+  return (
+    <div className="grid grid-rows-[auto_1fr] px-2.5 py-5 uppercase border-l border-l-border overflow-x-scroll">
+      <p className="text-sm text-foreground/70 px-4">Members List</p>
+      <div className="flex items-center justify-center h-full">
+        <p className="text-sm text-foreground/50">Direct messages don't have members</p>
+      </div>
     </div>
   )
 }
