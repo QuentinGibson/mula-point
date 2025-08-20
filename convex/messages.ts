@@ -1,7 +1,7 @@
 import { v } from 'convex/values'
 import { mutation } from './_generated/server'
 import { Id } from './_generated/dataModel';
-import { queryWithAuth } from './useAuthQuery';
+import { queryWithAuth } from './queryWithAuth';
 
 type DateSeparator = {
   id: string;

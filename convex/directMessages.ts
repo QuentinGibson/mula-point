@@ -1,7 +1,7 @@
 import { internalMutation, mutation } from "./_generated/server";
 import { v } from "convex/values";
 import { faker } from "@faker-js/faker";
-import { queryWithAuth } from "./useAuthQuery";
+import { queryWithAuth } from "./queryWithAuth";
 
 export const list = queryWithAuth({
   args: {},

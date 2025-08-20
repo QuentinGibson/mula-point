@@ -6,7 +6,7 @@ import { DataModel } from "./_generated/dataModel";
 import { TableAggregate } from "@convex-dev/aggregate"
 import { Triggers } from "convex-helpers/server/triggers"
 import { customMutation, customCtx } from "convex-helpers/server/customFunctions"
-import { queryWithAuth } from "./useAuthQuery"
+import { queryWithAuth } from "./queryWithAuth"
 
 const triggers = new Triggers<DataModel>()
 

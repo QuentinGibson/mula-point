@@ -22,6 +22,8 @@ export const store = mutation({
       return user._id
     }
 
+    console.log(`Identity Name: ${identity.name}`)
+
     return await ctx.db.insert("users", {
       name: identity.name || "Anonymous",
       tokenIdentifier: identity.tokenIdentifier

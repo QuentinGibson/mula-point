@@ -2,7 +2,7 @@ import { v } from "convex/values";
 import { internalMutation, mutation } from "./_generated/server";
 import schema from "./schema";
 import { partial } from "convex-helpers/validators";
-import { queryWithAuth } from "./useAuthQuery";
+import { queryWithAuth } from "./queryWithAuth";
 
 
 const channelFields = schema.tables.channels.validator.fields

@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { mutation } from "./_generated/server";
-import { queryWithAuth } from "./useAuthQuery";
+import { queryWithAuth } from "./queryWithAuth";
 
 export const list = queryWithAuth({
   args: {},

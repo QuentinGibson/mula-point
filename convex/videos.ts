@@ -1,6 +1,6 @@
 import { query } from "./_generated/server";
 import { v } from "convex/values";
-import { queryWithAuth } from "./useAuthQuery";
+import { queryWithAuth } from "./queryWithAuth";
 
 export const getByLibraryAndBunnyId = queryWithAuth({
   args: {
