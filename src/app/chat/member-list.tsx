@@ -2,6 +2,7 @@
 import { convexQuery } from "@convex-dev/react-query"
 import { useQuery } from "@tanstack/react-query"
 import { api } from "../../../convex/_generated/api"
+import { Id } from "../../../convex/_generated/dataModel"
 import { useChatroomStore } from "@/stores/chatroom.store"
 import { Button } from "@/components/ui/button"
 
@@ -9,7 +10,7 @@ function MemberList() {
   const currentChannel = useChatroomStore((state) => state.currentRoom)
   const roomType = useChatroomStore((state) => state.roomType)
   const { data: members } = useQuery({
-    ...convexQuery(api.channelUsers.listUsers, { id: currentChannel! }),
+    ...convexQuery(api.channelUsers.listUsers, { id: currentChannel! as Id<"channels"> }),
     enabled: !!currentChannel && roomType === "channel"
   })
 
