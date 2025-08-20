@@ -10,13 +10,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useState } from "react"
 
-interface ShowDetailsPageProps {
-  params: {
-    id: string
-  }
-}
-
-function ShowDetailsPage({ params }: ShowDetailsPageProps) {
+function ShowDetailsPage() {
+  const params = useParams<{ id: string }>()
   const [selectedSeason, setSelectedSeason] = useState("1")
   const [isInWatchlist, setIsInWatchlist] = useState(false)
 
@@ -45,7 +40,7 @@ function ShowDetailsPage({ params }: ShowDetailsPageProps) {
   }
 
   // Mock episodes data
-  const seasons = {
+  const seasons: Record<string, Array<{id: string, number: number, title: string, duration: string, synopsis: string, thumbnail: string}>> = {
     "1": [
       { id: "e1", number: 1, title: "Pilot", duration: "58 min", synopsis: "Diagnosed with terminal cancer, a high school teacher tries to secure his family's future by producing crystal meth.", thumbnail: "/api/placeholder/320/180" },
       { id: "e2", number: 2, title: "Cat's in the Bag...", duration: "48 min", synopsis: "Walt and Jesse attempt to tie up loose ends. The DEA gets involved.", thumbnail: "/api/placeholder/320/180" },
@@ -164,7 +159,7 @@ function ShowDetailsPage({ params }: ShowDetailsPageProps) {
             </div>
 
             <div className="grid gap-4">
-              {currentSeasonEpisodes.map((episode) => (
+              {currentSeasonEpisodes.map((episode: {id: string, number: number, title: string, duration: string, synopsis: string, thumbnail: string}) => (
                 <Card key={episode.id} className="overflow-hidden hover:bg-muted/50 transition-colors">
                   <Link href={`/watch/480813/b7ed01f6-31ec-4563-aabe-689f489b2d8d`}>
                     <CardContent className="p-0">

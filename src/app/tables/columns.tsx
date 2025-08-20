@@ -16,7 +16,18 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 
-export type Payments = Awaited<PaginatedQueryItem<typeof api.payment.pageList>>
+type PageListResult = {
+  userName: string;
+  statusName: string | undefined;
+  _id: any;
+  _creationTime: number;
+  user: any;
+  amount: number;
+  status: any;
+  paymentDate: number;
+}
+
+export type Payments = PageListResult
 
 export const columns: ColumnDef<Payments>[] = [
   {
@@ -73,7 +84,7 @@ export const columns: ColumnDef<Payments>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original
+      const payment: Payments = row.original
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
