@@ -1,6 +1,6 @@
 import { v } from 'convex/values'
 import { mutation } from './_generated/server'
-import { Id } from './_generated/dataModel';
+import { Doc, Id } from './_generated/dataModel';
 import { queryWithAuth } from './queryWithAuth';
 
 type DateSeparator = {
@@ -238,6 +238,7 @@ export const sendToRoom = mutation({
     if (!user) {
       throw new Error("Unauthenticated call to mutation")
     }
+
 
     // Create message with appropriate room field
     const messageData: any = {
