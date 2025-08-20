@@ -1,7 +1,7 @@
 import { ObjectType, PropertyValidators } from "convex/values";
 import { query, QueryCtx } from "./_generated/server";
 
-export function queryWithAuth<
+export const queryWithAuth = <
   ArgsValidator extends PropertyValidators,
   Output
 >({
@@ -13,7 +13,7 @@ export function queryWithAuth<
     ctx: QueryCtx,
     args: ObjectType<ArgsValidator>
   ) => Output;
-}) {
+}) => {
   return query({
     args: {
       ...args,

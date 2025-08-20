@@ -1,17 +1,18 @@
 import { paginationOptsValidator } from "convex/server";
-import { internalMutation, query } from "./_generated/server";
+import { internalMutation } from "./_generated/server";
 import { faker } from "@faker-js/faker";
+import { queryWithAuth } from "./queryWithAuth";
 
 
 //TODO: List all shows for a infinite scroll effect
-export const list = query({
+export const list = queryWithAuth({
   args: {},
   handler: async (ctx) => {
     return ctx.db.query("shows").order("desc").take(50)
   }
 })
 
-export const listPage = query({
+export const listPage = queryWithAuth({
   args: { paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
     const { paginationOpts } = args
